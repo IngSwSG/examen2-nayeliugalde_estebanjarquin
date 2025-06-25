@@ -30,5 +30,45 @@ class MaterialController extends Controller
             'material' => $material
         ], 201);
     }
+
+    public function update(Request $request, $codigo)
+{
+  
+    $material = Material::find($codigo);
+
+    if (!$material) {
+        return response()->json(['message' => 'Material no encontrado'], 404);
+    }
+
+  
+    $request->validate([
+        'unidadMedida' => 'sometimes|required|string|max:50',
+        'descripcion' => 'sometimes|required|string',
+        'ubicacion' => 'sometimes|required|string|max:100',
+        'idCategoria' => 'sometimes|required|exists:categorias,idCategoria'
+    ]);
+
+
+    $material->update($request->only([
+        'unidadMedida',
+        'descripcion',
+        'ubicacion',
+        'idCategoria'
+    ]));
+
+    return response()->json([
+        'message' => 'Material actualizado correctamente',
+        'material' => $material
+    ]);
+}
+public function index()
+{
+    $materiales = Material::with('categoria')->get();
+
+    return response()->json([
+        'materiales' => $materiales
+    ]);
+}
+
 }
 
