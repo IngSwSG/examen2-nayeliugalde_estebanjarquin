@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('materials', function (Blueprint $table) {
+        Schema::create('materiales', function (Blueprint $table) {
             $table->integer('codigo')->primary();
             $table->string('unidadMedida', 50);
             $table->text('descripcion');
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('materials');
+        Schema::dropIfExists('materiales');
     }
 };
